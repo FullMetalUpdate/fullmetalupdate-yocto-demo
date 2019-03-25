@@ -2,15 +2,6 @@
 
 Scripts using containers to build images.
 
-The following commands should help building the docker container and run a build
-on Yocto:
-
-```
-./container_build.sh
-./container_run.sh sync imx6qdlsabresd rocko v1.0
-./container_run.sh all
-```
-
 To get started, check the documentation:
 [Get Started](https://www.fullmetalupdate.io/docs/documentation/)
 
