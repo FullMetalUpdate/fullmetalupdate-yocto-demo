@@ -6,7 +6,7 @@ else
 	DOCKER_NETWORK_NAME="$(docker network ls --format '{{.Name}}' | grep fmu_network)"
 
 	if [ -z "$DOCKER_NETWORK_NAME" ]; then
-		echo "fmu_network does not seem to exists. Did you run ./RunWiUpdate.sh?"
+		echo "fmu_network does not seem to exists. Did you run StartServer.sh?"
 		exit 1
 	fi
 
@@ -16,6 +16,6 @@ else
 		--volume ~/.gitconfig:/home/docker/.gitconfig \
 		--volume ~/.ssh/id_rsa_bitbucket:/home/docker/.ssh/id_rsa \
 		--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-		--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm wi_update_yocto \
+		--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:version1.0  \
 		yocto $@
 fi
