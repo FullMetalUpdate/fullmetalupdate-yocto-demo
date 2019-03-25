@@ -1,20 +1,20 @@
-[server]
-server_host_name = gsavoundararadj-PC
-
 [client]
-hawkbit_vendor_name = WiUpdate
+hawkbit_vendor_name = FullMetalUpdate
 hawkbit_url_port = 8080
 hawkbit_ssl = false
 hawkbit_tenant_id = DEFAULT
-hawkbit_target_name = Georges-Board
-hawkbit_auth_token = 6937845f7d12c903a6a66678fdc80e77
+hawkbit_target_name = FullMetalUpdate_Demo
+hawkbit_auth_token = 380ff2b5908e776cb69159f3f4477e4f
 log_level = debug
 
 [ostree]
-ostree_name_remote = wiupdate-os
+ostree_name_remote = fullmetalupdate
 ostree_gpg-verify = false
 ostree_ssl = false
 ostree_url_port = 8000
 ostreepush_ssh_port = 22
 ostreepush_ssh_user = root
 ostreepush_ssh_pwd = root
+
+[server]
+server_host_name = __UNDEFINED__
