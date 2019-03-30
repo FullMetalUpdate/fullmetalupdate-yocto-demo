@@ -128,6 +128,24 @@ main()
       fi
       DISTRO=fullmetalupdate-os bitbake fullmetalupdate-os-package -k
       ;;
+    
+    build-container)
+      shift; set -- "$@"
+      if [ $# -ne 1 ]; then
+        echo "build-container command accepts only 1 argument"
+        exit 1
+      fi
+      cd "${DATADIR}/yocto"
+      source sources/poky/oe-init-build-env build
+      DISTRO=fullmetalupdate-containers bitbake $1 -k
+      ;;
+
+    package-wic)
+      cd "${DATADIR}/yocto"
+      source sources/poky/oe-init-build-env build
+      DISTRO=fullmetalupdate-os bitbake fullmetalupdate-os-package -c image_wic -f
+      DISTRO=fullmetalupdate-os bitbake fullmetalupdate-os-package -k
+      ;;
 
     bash)
       cd "${DATADIR}/yocto"
