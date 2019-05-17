@@ -62,16 +62,47 @@ is_fullmetalupdate_supported()
   is_in_list "$FULLMETALUPDATE" "$SUPPORTED_FULLMETALUPATE"
 }
 
+show_usage()
+{
+  echo "Usage: StartBuild.sh command [args]"
+  echo "Commands:"
+  echo "    sync <machine> <yocto_version> <FullMetalUpdate_version>"
+  echo "        Sync Yocto and Full Metal Update versions"
+  echo "        E.g. sync imx6qdlsabresd rocko v1.0"
+  echo
+  echo "    all"
+  echo "        Build Full Metal Update OS and containers images"
+  echo
+  echo "    fullmetalupdate-containers"
+  echo "        Build Full Metal Update containers image"
+  echo
+  echo "    fullmetalupdate-os"
+  echo "        Build Full Metal Update OS image"
+  echo
+  echo "    build-container <image>"
+  echo "        Build Full Metal Update container image <image>"
+  echo
+  echo "    package-wic"
+  echo "        Build the .wic SD Card image"
+  echo
+  echo "    bash"
+  echo "        Start an interactive bash shell in the build container"
+  echo
+  echo "    help"
+  echo "        Show this text"
+  echo
+  exit 1
+}
+
 main()
 {
   if [ $# -lt 1 ]; then
-    echo "Not enough argument"
-    exit 1
+    show_usage
   fi
 
   if [ ! -d "${DATADIR}/yocto/sources" ] && [ "$1" != "sync" ]; then
-    echo "yocto/sources does not exists: use the command 'sync <machine> <yocto_version> <fullmetalupdate_version>', Bye!"
-    exit 1
+    echo "The directory 'yocto/sources' does not yet exist. Use the 'sync' command"
+    show_usage
   fi
 
 
@@ -88,22 +119,22 @@ main()
       shift; set -- "$@"
       if [ $# -ne 3 ]; then
         echo "sync command accepts only 3 arguments"
-        exit 1
+        show_usage
       fi
 
       if ! is_machine_supported "$1"; then
         echo "$1 is not a supported machine: $SUPPORTED_MACHINES"
-        exit 1
+        show_usage
       fi
 
       if ! is_yocto_supported "$2"; then
         echo "$2 is not a supported yocto version: $SUPPORTED_YOCTO"
-        exit 1
+        show_usage
       fi
 
       if ! is_fullmetalupdate_supported "$3"; then
         echo "$3 is not a supported version: $SUPPORTED_FULLMETALUPATE"
-        exit 1
+        show_usage
       fi
 
       yocto_sync $@
@@ -128,12 +159,12 @@ main()
       fi
       DISTRO=fullmetalupdate-os bitbake fullmetalupdate-os-package -k
       ;;
-    
+
     build-container)
       shift; set -- "$@"
       if [ $# -ne 1 ]; then
         echo "build-container command accepts only 1 argument"
-        exit 1
+        show_usage
       fi
       cd "${DATADIR}/yocto"
       source sources/poky/oe-init-build-env build
@@ -152,9 +183,14 @@ main()
       source sources/poky/oe-init-build-env build
       bash
       ;;
+
+    help)
+      show_usage
+      ;;
+
     *)
-      echo "Command not supported: $1, bye!"
-      exit 1
+      echo "Command not supported: $1"
+      show_usage
   esac
 
 }
