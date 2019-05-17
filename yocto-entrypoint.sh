@@ -2,7 +2,7 @@
 
 SUPPORTED_MACHINES=" \
   imx6qdlsabresd \
-  raspberrypi \
+  raspberrypi3 \
 "
 SUPPORTED_YOCTO=" \
   rocko
