@@ -85,8 +85,10 @@ show_usage()
   echo "    package-wic"
   echo "        Build the .wic SD Card image"
   echo
-  echo "    bash"
+  echo "    bash [distro]"
   echo "        Start an interactive bash shell in the build container"
+  echo "        Optional: [distro] to use"
+  echo "            E.g. fullmetalupdate-os, fullmetalupdate-containers"
   echo
   echo "    help"
   echo "        Show this text"
@@ -181,7 +183,12 @@ main()
     bash)
       cd "${DATADIR}/yocto"
       source sources/poky/oe-init-build-env build
-      bash
+
+      if [ ! -z $2 ]; then
+        DISTRO=$2 bash
+      else
+        bash
+      fi
       ;;
 
     help)
