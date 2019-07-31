@@ -2,7 +2,7 @@
 
 SUPPORTED_MACHINES=" \
   imx6qdlsabresd \
-  raspberrypi \
+  raspberrypi3 \
   stm32mp1-eval \
 "
 SUPPORTED_YOCTO=" \
