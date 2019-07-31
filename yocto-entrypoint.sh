@@ -3,9 +3,11 @@
 SUPPORTED_MACHINES=" \
   imx6qdlsabresd \
   raspberrypi3 \
+  stm32mp1-eval \
 "
 SUPPORTED_YOCTO=" \
-  rocko
+  rocko \
+  thud \
 "
 SUPPORTED_FULLMETALUPATE=" \
   latest-release \
@@ -111,7 +113,7 @@ main()
   case "$1" in
     all)
       cd "${DATADIR}/yocto"
-      TEMPLATECONF=$PWD/sources/meta-fullmetalupdate-extra/conf/imx6qdlsabresd
+      TEMPLATECONF=$PWD/sources/meta-fullmetalupdate-extra/conf/$1
       source sources/poky/oe-init-build-env build
       DISTRO=fullmetalupdate-containers bitbake fullmetalupdate-containers-package -k
       DISTRO=fullmetalupdate-os bitbake fullmetalupdate-os-package -k
