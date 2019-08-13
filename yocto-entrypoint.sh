@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
-SUPPORTED_MACHINES=" \
+SUPPORTED_MACHINES_ROCKO=" \
   imx6qdlsabresd \
   raspberrypi3 \
+"
+SUPPORTED_MACHINES_THUD=" \
+  imx8mqevk \
   stm32mp1-eval \
 "
-SUPPORTED_YOCTO=" \
-  rocko \
-  thud \
-"
+
 SUPPORTED_FULLMETALUPATE=" \
+  dev \
   latest-release \
   v1.0 \
 "
@@ -24,7 +25,25 @@ yocto_sync()
   sudo chown docker:docker "${DATADIR}/yocto/"
   cd "${DATADIR}/yocto"
 
-  echo "N" | repo init -u https://github.com/FullMetalUpdate/manifest -b "${YOCTO}/${MACHINE}" -m "${FULLMETALUPDATE}.xml"
+  case "${MACHINE}" in
+  "imx8mqevk")
+      BRANCH_REPO="imx"
+      ;;
+  "imx6qdlsabresd")
+      BRANCH_REPO="imx"
+      ;;
+  "raspberrypi3")
+      BRANCH_REPO="raspberrypi"
+      ;;
+  "stm32mp1-eval")
+      BRANCH_REPO="stm32mp1"
+      ;;
+  *)
+      return 1
+      ;;
+  esac
+
+  echo "N" | repo init -u https://github.com/FullMetalUpdate/manifest -b "${YOCTO}/${BRANCH_REPO}" -m "${FULLMETALUPDATE}.xml"
 
   repo sync --force-sync
 }
@@ -43,18 +62,26 @@ is_in_list()
   return 1
 }
 
-is_machine_supported()
-{
-  local MACHINE="$1"
-
-  is_in_list "$MACHINE" "$SUPPORTED_MACHINES"
-}
-
 is_yocto_supported()
 {
-  local YOCTO="$1"
+  local MACHINE="$1"
+  local YOCTO="$2"
+  case "${YOCTO}" in
+  "rocko")
+      if ! is_in_list "$MACHINE" "$SUPPORTED_MACHINES_ROCKO"; then
+        echo "$MACHINE is not supported by FullMetalUpdate by the Yocto version of Rocko: $SUPPORTED_MACHINES_ROCKO"
+      fi
+      ;;
+  "thud")
+      if ! is_in_list "$MACHINE" "$SUPPORTED_MACHINES_THUD"; then
+        echo "$MACHINE is not supported by FullMetalUpdate for the Yocto version of Thud: $SUPPORTED_MACHINES_THUD"
+      fi
+      ;;
+  *)
+      return 1
+      ;;
+  esac
 
-  is_in_list "$YOCTO" "$SUPPORTED_YOCTO"
 }
 
 is_fullmetalupdate_supported()
@@ -126,12 +153,7 @@ main()
         show_usage
       fi
 
-      if ! is_machine_supported "$1"; then
-        echo "$1 is not a supported machine: $SUPPORTED_MACHINES"
-        show_usage
-      fi
-
-      if ! is_yocto_supported "$2"; then
+      if ! is_yocto_supported "$1" "$2"; then
         echo "$2 is not a supported yocto version: $SUPPORTED_YOCTO"
         show_usage
       fi
