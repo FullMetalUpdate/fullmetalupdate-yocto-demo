@@ -6,7 +6,7 @@ SUPPORTED_MACHINES_ROCKO=" \
 "
 SUPPORTED_MACHINES_THUD=" \
   imx8mqevk \
-  stm32mp1-eval \
+  stm32mp1-disco \
 "
 
 SUPPORTED_FULLMETALUPATE=" \
@@ -35,7 +35,7 @@ yocto_sync()
   "raspberrypi3")
       BRANCH_REPO="raspberrypi"
       ;;
-  "stm32mp1-eval")
+  "stm32mp1-disco")
       BRANCH_REPO="stm32mp1"
       ;;
   *)
