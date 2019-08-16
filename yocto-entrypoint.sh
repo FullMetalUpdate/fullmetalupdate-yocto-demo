@@ -12,7 +12,6 @@ SUPPORTED_MACHINES_THUD=" \
 SUPPORTED_FULLMETALUPATE=" \
   dev \
   latest-release \
-  v1.0 \
 "
 
 yocto_sync()
