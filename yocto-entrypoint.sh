@@ -8,6 +8,9 @@ SUPPORTED_MACHINES_THUD=" \
   imx8mqevk \
   stm32mp1-disco \
 "
+SUPPORTED_MACHINES_WARRIOR=" \
+  imx8mqevk \
+"
 
 SUPPORTED_FULLMETALUPATE=" \
   dev \
@@ -74,6 +77,11 @@ is_yocto_supported()
   "thud")
       if ! is_in_list "$MACHINE" "$SUPPORTED_MACHINES_THUD"; then
         echo "$MACHINE is not supported by FullMetalUpdate for the Yocto version of Thud: $SUPPORTED_MACHINES_THUD"
+      fi
+      ;;
+  "warrior")
+      if ! is_in_list "$MACHINE" "$SUPPORTED_MACHINES_WARRIOR"; then
+        echo "$MACHINE is not supported by FullMetalUpdate for the Yocto version of Warrior: $SUPPORTED_MACHINES_WARRIOR"
       fi
       ;;
   *)
