@@ -7,6 +7,7 @@ SUPPORTED_MACHINES_ROCKO=" \
 SUPPORTED_MACHINES_THUD=" \
   imx8mqevk \
   stm32mp1-disco \
+  stm32mp1-eval \
 "
 
 SUPPORTED_FULLMETALUPATE=" \
@@ -37,12 +38,15 @@ yocto_sync()
   "stm32mp1-disco")
       BRANCH_REPO="stm32mp1"
       ;;
+  "stm32mp1-eval")
+      BRANCH_REPO="stm32mp1"
+      ;;
   *)
       return 1
       ;;
   esac
 
-  echo "N" | repo init -u https://github.com/FullMetalUpdate/manifest -b "${YOCTO}/${BRANCH_REPO}" -m "${FULLMETALUPDATE}.xml"
+  echo "N" | repo init -u https://github.com/lquinet/manifest -b "${YOCTO}/${BRANCH_REPO}" -m "${FULLMETALUPDATE}.xml"
 
   repo sync --force-sync
 }
