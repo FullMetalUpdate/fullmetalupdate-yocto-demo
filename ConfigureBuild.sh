@@ -24,4 +24,4 @@ if [ -e ./config.cfg ]; then
 fi
 
 cp ./config.cfg.sample ./config.cfg
-cfg_write config.cfg server_host_name $(hostname)
+cfg_write config.cfg server_host_name $(hostname).local
