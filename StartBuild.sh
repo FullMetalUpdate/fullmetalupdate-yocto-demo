@@ -17,7 +17,7 @@ else
 		--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
 		--volume ~/.gitconfig:/home/docker/.gitconfig \
 		--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-		--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+		--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
 		yocto $@
 	else
 		docker volume create yocto_fullmetalupdate
