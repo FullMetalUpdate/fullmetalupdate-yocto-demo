@@ -12,22 +12,45 @@ else
 	# Check if we are running on Linux or Windows to adapt the path of the source command
 	unamestr=`uname`
 	if [[ "$unamestr" == 'Linux' ]]; then
-		docker run \
-		--volume $(pwd)/build:/data \
-		--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
-		--volume ~/.gitconfig:/home/docker/.gitconfig \
-		--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-		--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
-		yocto $@
+		# Check if we are running inside builbot worker to disable --interractive
+		if [ -n "$BUILDMASTER" ]; then
+			docker run \
+			--volume $(pwd)/build:/data \
+			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
+			--volume ~/.gitconfig:/home/docker/.gitconfig \
+			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
+			--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			yocto $@
+		else
+			docker run \
+			--volume $(pwd)/build:/data \
+			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
+			--volume ~/.gitconfig:/home/docker/.gitconfig \
+			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
+			--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			yocto $@
+		fi
 	else
-		docker volume create yocto_fullmetalupdate
-		MSYS_NO_PATHCONV=1 docker run \
-		--volume yocto_fullmetalupdate:/data \
-		--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
-		--volume ~/.gitconfig:/home/docker/.gitconfig \
-		--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-		--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
-		yocto $@
+		# Check if we are running inside builbot worker to disable --interractive
+		if [ -n "$BUILDMASTER" ]; then
+			docker volume create yocto_fullmetalupdate
+			MSYS_NO_PATHCONV=1 docker run \
+			--volume yocto_fullmetalupdate:/data \
+			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
+			--volume ~/.gitconfig:/home/docker/.gitconfig \
+			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
+			--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			yocto $@
+		else
+			docker volume create yocto_fullmetalupdate
+			MSYS_NO_PATHCONV=1 docker run \
+			--volume yocto_fullmetalupdate:/data \
+			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
+			--volume ~/.gitconfig:/home/docker/.gitconfig \
+			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
+			--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			yocto $@
+		fi
 	fi
 
 fi
