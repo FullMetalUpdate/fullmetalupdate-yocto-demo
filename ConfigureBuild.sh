@@ -24,4 +24,13 @@ if [ -e ./config.cfg ]; then
 fi
 
 cp ./config.cfg.sample ./config.cfg
-cfg_write config.cfg server_host_name $(hostname).local
+
+if [ -n "$FMU_CLOUD_HOSTNAME" ]; then
+  echo "FMU_CLOUD_HOSTNAME exists"
+  # Check if FMU_CLOUD_HOSTNAME env variable is defined: 
+  # that means that we are running inside buildbot worker container
+  cfg_write config.cfg server_host_name "$FMU_CLOUD_HOSTNAME".local
+else
+  echo "FMU_CLOUD_HOSTNAME empty"
+  cfg_write config.cfg server_host_name $(hostname).local
+fi 
