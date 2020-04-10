@@ -146,6 +146,7 @@ main()
 
   case "$1" in
     all)
+      cat /home/docker/config.cfg
       cd "${DATADIR}/yocto"
       TEMPLATECONF=$PWD/sources/meta-fullmetalupdate-extra/conf/$1
       source sources/poky/oe-init-build-env build
