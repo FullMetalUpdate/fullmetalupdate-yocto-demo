@@ -34,3 +34,4 @@ else
   cfg_write config.cfg server_host_name $(hostname).local
   echo "Wrote server_host_name $(hostname) in config.cfg from hostname command"
 fi 
+
