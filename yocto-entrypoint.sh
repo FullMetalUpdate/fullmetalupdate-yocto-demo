@@ -12,6 +12,10 @@ SUPPORTED_MACHINES_WARRIOR=" \
   imx8mqevk \
 "
 
+SUPPORTED_MACHINES_DUNFELL=" \
+  imx8mqevk \
+"
+
 SUPPORTED_FULLMETALUPATE=" \
   dev \
   latest-release \
@@ -82,6 +86,11 @@ is_yocto_supported()
   "warrior")
       if ! is_in_list "$MACHINE" "$SUPPORTED_MACHINES_WARRIOR"; then
         echo "$MACHINE is not supported by FullMetalUpdate for the Yocto version of Warrior: $SUPPORTED_MACHINES_WARRIOR"
+      fi
+      ;;
+  "dunfell")
+      if ! is_in_list "$MACHINE" "$SUPPORTED_MACHINES_DUNFELL"; then
+        echo "$MACHINE is not supported by FullMetalUpdate for the Yocto version of Dunfell: $SUPPORTED_MACHINES_DUNFELL"
       fi
       ;;
   *)
