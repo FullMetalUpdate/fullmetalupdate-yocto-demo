@@ -19,7 +19,7 @@ else
 			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
 			--volume ~/.gitconfig:/home/docker/.gitconfig \
 			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-			--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v2.0  \
 			yocto $@
 		else
 			docker run \
@@ -27,7 +27,7 @@ else
 			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
 			--volume ~/.gitconfig:/home/docker/.gitconfig \
 			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-			--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v2.0  \
 			yocto $@
 		fi
 	else
@@ -39,7 +39,7 @@ else
 			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
 			--volume ~/.gitconfig:/home/docker/.gitconfig \
 			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-			--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			--network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v2.0  \
 			yocto $@
 		else
 			docker volume create yocto_fullmetalupdate
@@ -48,7 +48,7 @@ else
 			--volume $(pwd)/yocto-entrypoint.sh:/yocto-entrypoint.sh \
 			--volume ~/.gitconfig:/home/docker/.gitconfig \
 			--volume $(pwd)/config.cfg:/home/docker/config.cfg \
-			--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v1.0  \
+			--interactive --network "$DOCKER_NETWORK_NAME" --tty --rm fullmetalupdate/build-yocto:v2.0  \
 			yocto $@
 		fi
 	fi
